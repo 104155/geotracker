@@ -1,0 +1,61 @@
+/* Reset - Section */
+
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: grey;
+}
+
+/* Main - Section */
+
+main {
+    /* height: 50vh; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Track Name */
+.trackName {
+    font-size: 3rem;
+}
+
+/* Map */
+#map {
+    margin: 1em;
+    width: 20em;
+    height: 20em;
+    border: 1px solid black;
+}
+
+/* Time */
+.time {
+    font-weight: 500;
+    font-size: 4rem;
+}
+
+.milli {
+    font-size: 2rem;
+}
+
+/* Track Output */
+.trackOutput p {
+    display: inline;
+    font-size: 1.5rem;
+}
+
+/* Buttons */
+
+button {
+    /* display: block; */
+    margin: 1em;
+    padding: 0.5em;
+    width: 10em;
+}
