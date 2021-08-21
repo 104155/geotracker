@@ -15,16 +15,16 @@ var iconLayer;
 var geolocation;
 var trackoutput;
 
-//empty vector where the line is later added 
+//Empty vector where the line is later added 
 vectorSource = new ol.source.Vector({});
 
-//view
+//View
 view = new ol.View({
   center: [1818831.7942307333, 6140484.332635549],
   zoom: 3
 })
 
-//map
+//Map
 map = new ol.Map({
   interactions: ol.interaction.defaults({ mouseWheelZoom: false }),
   layers: [
@@ -44,7 +44,7 @@ map = new ol.Map({
   }),
 });
 
-// add an empty iconFeature to the source of the layer
+//Add an empty iconFeature to the source of the layer
 iconFeature = new ol.Feature();
 
 iconSource = new ol.source.Vector({
@@ -69,7 +69,7 @@ iconLayer = new ol.layer.Vector({
 
 map.addLayer(iconLayer);
 
-//geolocation
+//Geolocation
 geolocation = new ol.Geolocation({
   projection: map.getView().getProjection(),
   tracking: false, //used when no checkbox is used
@@ -79,18 +79,18 @@ geolocation = new ol.Geolocation({
   }
 });
 
-//updates track line
+//Updates track line
 function updateTrackLine(pos) {
 
-  //update line points
+  //Update line points
   if (lastPos == undefined) {
     lastPos = pos;
   }
 
-  //line
+  //Line
   let lineString = new ol.geom.LineString([lastPos, pos]);
 
-  //update lastpos for next round
+  //Update lastpos for next round
   lastPos = pos;
 
   let lineFeature = new ol.Feature({
@@ -106,7 +106,7 @@ function updateTrackLine(pos) {
     })
   });
 
-  //style has to be added later and cannot be created in the Style in one go
+  //Style has to be added later and cannot be created in the Style in one go
   lineFeature.setStyle(lineStyle);
   vectorSource.addFeature(lineFeature);
 
@@ -126,20 +126,20 @@ function getElement(selector) {
 
 trackoutput = document.querySelector('.trackOutput');
 function updateLocation() {
-  //tracking has to be true
+  //Tracking has to be true
   pos = geolocation.getPosition();
   console.log(geolocation.getTracking());
   console.log(geolocation.getPosition());
 
-  document.querySelector('.posOutput').innerHTML = `pos: ${pos}`;
+  document.querySelector('.posOutput').innerHTML += `<p>pos: ${pos}</p>`;
 
-  //update icon coordinates
+  //Update icon coordinates
   iconFeature.setGeometry(new ol.geom.Point(pos));
 
-  //update speed display
+  //Update speed display
   getElement('.speed').innerText = `speed: ${geolocation.getSpeed()} [m/s]`;
 
-  //create new track lines
+  //Create new track lines
   updateTrackLine(pos);
 }
 
@@ -162,14 +162,14 @@ function toggleStartStop() {
     //Stop tracking
     geolocation.setTracking(false);
     startStopBtn.innerHTML = 'START';
-    //stop updating pos
+    //Stop updating pos
     stopInterval();
   } else {
     //Start tracking
     geolocation.setTracking(true);
-    //update location for the first time
+    //Update location for the first time
     geolocation.once('change', updateLocation);
-    //start updating pos all 5 sec (first update after 5 sec)
+    //Start updating pos all 5 sec (first update after 5 sec)
     startInterval(5000);
     startStopBtn.innerHTML = 'STOP';
   }
