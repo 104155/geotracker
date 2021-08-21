@@ -163,7 +163,7 @@ function updateLocation() {
   console.log('distance: ' + distance);
   console.log('pos: ' + pos + ', lastPos: ' + lastPos);
 
-  getElement('.trackOutput').innerHTML = `<p>speed: ${speed} m/s | distance: ${distance} m</p>`;
+  getElement('.trackOutput').innerHTML = `<p>speed: ${speed} m/s | distance: ${distance}</p>`;
 }
 
 function formatLength(line) {
