@@ -13,6 +13,9 @@ var points = [];
 var pos;
 var lastPos;
 var interval; //time interval to update position
+
+var geographic  = new ol.proj.Projection("EPSG:4326"); 
+var mercator = new ol.proj.Projection("EPSG:900913");
 var distance;
 
 //Empty vector where the line is later added 
@@ -140,10 +143,20 @@ function updateLocation() {
   //Create new track lines & update lastPos
   updateTrackLine(pos);
 
-  // //Update distance display
-  // distance += geolocation.getSpeed();
-  // getElement('.distance').innerText = `distance: ${} [km]`;
+  //Update distance display
+  distance += distanceBetweenPoints(pos, lastPos);  
+  getElement('.distance').innerText = `distance: ${distance} [km]`;
 }
+
+function distanceBetweenPoints(latlng1, latlng2){
+        // var point1 = new ol.geom.Point(latlng1.lon, latlng1.lat).transform(geographic, mercator);
+        // var point2 = new ol.geom.Point(latlng2.lon, latlng2.lat).transform(geographic, mercator);   
+        // console.log(latlng1);
+        // var point1 = new ol.geom.Point(latlng1);
+        // var point2 = new ol.geom.Point(latlng2);      
+        let dist = ol.sphere.getDistance(latlng1, latlng2);
+        return dist;
+    }
 
 //Start interval
 function startInterval(milliSec) {
