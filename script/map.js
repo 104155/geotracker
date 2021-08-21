@@ -129,6 +129,8 @@ function updateLocation() {
   pos = geolocation.getPosition();
   points.push(pos);
 
+  console.log(pos);
+
   //Update icon coordinates
   iconFeature.setGeometry(new ol.geom.Point(pos));
 
