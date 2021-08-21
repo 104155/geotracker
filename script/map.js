@@ -14,7 +14,7 @@ var pos;
 var lastPos;
 var interval; //time interval to update position
 
-var geographic  = new ol.proj.Projection("EPSG:4326"); 
+var geographic = new ol.proj.Projection("EPSG:4326");
 var mercator = new ol.proj.Projection("EPSG:900913");
 var speed = 0.0
 var distance = 0.0;
@@ -86,16 +86,16 @@ geolocation = new ol.Geolocation({
 //Updates track line
 function updateTrackLine(pos) {
 
-  //Update line points
-  if (lastPos == undefined) {
-    lastPos = pos;
-  }
+  // //Update line points
+  // if (lastPos == undefined) {
+  //   lastPos = pos;
+  // }
 
   //Line
   let lineString = new ol.geom.LineString([lastPos, pos]);
 
-  //Update lastpos for next round
-  lastPos = pos;
+  // //Update lastpos for next round
+  // lastPos = pos;
 
   let lineFeature = new ol.Feature({
     name: 'Line',
@@ -131,6 +131,14 @@ function getElement(selector) {
 function updateLocation() {
   //Tracking has to be true
   pos = geolocation.getPosition();
+
+  console.log(pos);
+
+  //Update line points
+  if (lastPos == undefined) {
+    lastPos = pos;
+  }
+
   points.push(pos);
 
   //Update icon coordinates
@@ -139,25 +147,28 @@ function updateLocation() {
   // //Update speed display
   // getElement('.speed').innerText = `speed: ${geolocation.getSpeed()} [m/s]`;
 
-  //Create new track lines & update lastPos
+  //Create new track lines
   updateTrackLine(pos);
+
+  //Update lastpos for next round
+  lastPos = pos;
 
   //Update display speed distance
   speed = geolocation.getSpeed();
-  distance += distanceBetweenPoints(pos, lastPos);  
-  console.log(distance);
+  distance += distanceBetweenPoints(pos, lastPos);
+  console.log('distance: ' + distance);
   getElement('.trackOutput').innerHTML = `<p>speed: ${speed} m/s | distance: ${distance} m</p>`;
 }
 
-function distanceBetweenPoints(latlng1, latlng2){
-        // var point1 = new ol.geom.Point(latlng1.lon, latlng1.lat).transform(geographic, mercator);
-        // var point2 = new ol.geom.Point(latlng2.lon, latlng2.lat).transform(geographic, mercator);   
-        // console.log(latlng1);
-        // var point1 = new ol.geom.Point(latlng1);
-        // var point2 = new ol.geom.Point(latlng2);      
-        let dist = ol.sphere.getDistance(latlng1, latlng2);
-        return dist;
-    }
+function distanceBetweenPoints(latlng1, latlng2) {
+  // var point1 = new ol.geom.Point(latlng1.lon, latlng1.lat).transform(geographic, mercator);
+  // var point2 = new ol.geom.Point(latlng2.lon, latlng2.lat).transform(geographic, mercator);   
+  // console.log(latlng1);
+  // var point1 = new ol.geom.Point(latlng1);
+  // var point2 = new ol.geom.Point(latlng2);      
+  let dist = ol.sphere.getDistance(latlng1, latlng2);
+  return dist;
+}
 
 //Start interval
 function startInterval(milliSec) {
