@@ -3,17 +3,29 @@ var pos;
 var lastPos;
 var interval; //time interval to update position
 
+var vectorSource; //line layer
+var view; //map view
+var map;
+
+var iconFeature; //line point
+var iconSource;
+var iconStyle;
+var iconLayer;
+
+var geolocation;
+var trackoutput;
+
 //empty vector where the line is later added 
-var vectorSource = new ol.source.Vector({});
+vectorSource = new ol.source.Vector({});
 
 //view
-let view = new ol.View({
+view = new ol.View({
   center: [1818831.7942307333, 6140484.332635549],
   zoom: 3
 })
 
 //map
-var map = new ol.Map({
+map = new ol.Map({
   interactions: ol.interaction.defaults({ mouseWheelZoom: false }),
   layers: [
     new ol.layer.Tile({
@@ -33,13 +45,13 @@ var map = new ol.Map({
 });
 
 // add an empty iconFeature to the source of the layer
-var iconFeature = new ol.Feature();
+iconFeature = new ol.Feature();
 
-var iconSource = new ol.source.Vector({
+iconSource = new ol.source.Vector({
   features: [iconFeature]
 });
 
-var iconStyle = new ol.style.Style({
+iconStyle = new ol.style.Style({
   image: new ol.style.Icon({
     anchor: [0.5, 100],
     anchorXUnits: 'fraction',
@@ -50,7 +62,7 @@ var iconStyle = new ol.style.Style({
   })
 });
 
-var iconLayer = new ol.layer.Vector({
+iconLayer = new ol.layer.Vector({
   source: iconSource,
   style: iconStyle
 });
@@ -58,7 +70,7 @@ var iconLayer = new ol.layer.Vector({
 map.addLayer(iconLayer);
 
 //geolocation
-var geolocation = new ol.Geolocation({
+geolocation = new ol.Geolocation({
   projection: map.getView().getProjection(),
   tracking: false, //used when no checkbox is used
   trackingOptions: {
@@ -112,11 +124,14 @@ function getElement(selector) {
   return document.querySelector(selector);
 }
 
+trackoutput = document.querySelector('.trackOutput');
 function updateLocation() {
   //tracking has to be true
   pos = geolocation.getPosition();
   console.log(geolocation.getTracking());
   console.log(geolocation.getPosition());
+
+  document.querySelector('.posOutput').innerHTML = `pos: ${pos}`;
 
   //update icon coordinates
   iconFeature.setGeometry(new ol.geom.Point(pos));
