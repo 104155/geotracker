@@ -1,8 +1,4 @@
 //Variables
-var pos;
-var lastPos;
-var interval; //time interval to update position
-
 var vectorSource; //line layer
 var view; //map view
 var map;
@@ -13,7 +9,11 @@ var iconStyle;
 var iconLayer;
 
 var geolocation;
-var trackoutput;
+var points = [];
+var pos;
+var lastPos;
+var interval; //time interval to update position
+var distance;
 
 //Empty vector where the line is later added 
 vectorSource = new ol.source.Vector({});
@@ -124,14 +124,10 @@ function getElement(selector) {
   return document.querySelector(selector);
 }
 
-trackoutput = document.querySelector('.trackOutput');
 function updateLocation() {
   //Tracking has to be true
   pos = geolocation.getPosition();
-  console.log(geolocation.getTracking());
-  console.log(geolocation.getPosition());
-
-  document.querySelector('.posOutput').innerHTML += `<p>pos: ${pos}</p>`;
+  points.push(pos);
 
   //Update icon coordinates
   iconFeature.setGeometry(new ol.geom.Point(pos));
@@ -139,8 +135,12 @@ function updateLocation() {
   //Update speed display
   getElement('.speed').innerText = `speed: ${geolocation.getSpeed()} [m/s]`;
 
-  //Create new track lines
+  //Create new track lines & update lastPos
   updateTrackLine(pos);
+
+  // //Update distance display
+  // distance += geolocation.getSpeed();
+  // getElement('.distance').innerText = `distance: ${} [km]`;
 }
 
 //Start interval
@@ -179,79 +179,3 @@ function toggleStartStop() {
 document.querySelector('.startStopBtn').addEventListener('click', function () {
   toggleStartStop();
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// //Eventlistener start button
-// document.querySelector('.startStopBtn').addEventListener('click', function () {
-//   geolocation.setTracking(true);
-// });
-
-// //update HTML when the position changes
-// geolocation.on('change', function () {
-//   pos = geolocation.getPosition()
-
-//   //update icon coordinates
-//   iconFeature.setGeometry(new ol.geom.Point(pos));
-
-//   // //update speed display
-//   // getElement('.speed').innerText = `speed: ${geolocation.getSpeed()} [m/s]`;
-
-//   //update distance display
-//   // getElement('.distance').innerText = `distance: ${geolocation.getSpeed()} [m/s]`;
-
-//   //create new track lines
-//   addPoint(pos);
-// });
-
-// //updates track line
-// function addPoint(pos) {
-
-//   //update line points
-//   if (lastPos == undefined) {
-//     lastPos = pos;
-//   }
-
-//   //line
-//   let lineString = new ol.geom.LineString([lastPos, pos]);
-
-//   //update lastpos for next round
-//   lastPos = pos;
-
-//   let lineFeature = new ol.Feature({
-//     name: 'Line',
-//     geometry: lineString,
-//   });
-
-//   let lineStyle = new ol.style.Style({
-//     stroke: new ol.style.Stroke({
-//       color: '#f00',
-//       width: 4,
-//       opacity: 1
-//     })
-//   });
-
-//   //style has to be added later and cannot be created in the Style in one go
-//   lineFeature.setStyle(lineStyle);
-//   vectorSource.addFeature(lineFeature);
-
-//   //Fit trackline into map view
-
-//   let featuresOfInterest = vectorSource.getFeatures(); //Features of Line Strings - array
-//   let featExtent = featuresOfInterest[0].getGeometry().getExtent(); //preparing feature variable 
-//   for (let i = 0; i < featuresOfInterest.length; i++) {
-//     ol.extent.extend(featExtent, featuresOfInterest[i].getGeometry().getExtent());  //saving all features into one variable
-//   }
-//   view.fit(featExtent, { padding: [5, 5, 5, 5] });
-// }
