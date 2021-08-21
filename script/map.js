@@ -153,20 +153,37 @@ function updateLocation() {
   //Update lastpos for next round
   lastPos = pos;
 
-  //Update display speed distance
+  //Update speed 
   speed = geolocation.getSpeed();
-  distance += distanceBetweenPoints(pos, lastPos);
+
+  //Update distance
+  let lineString = new ol.geom.LineString(points);
+  distance = formatLength(lineString);
+  // distance += distanceBetweenPoints(pos, lastPos);
   console.log('distance: ' + distance);
+  console.log('pos: ' + pos + ', lastPos: ' + lastPos);
+
   getElement('.trackOutput').innerHTML = `<p>speed: ${speed} m/s | distance: ${distance} m</p>`;
 }
+
+function formatLength(line) {
+  const length = line.getLength();
+  let output;
+  if (length > 100) {
+    output = Math.round((length / 1000) * 100) / 100 + ' ' + 'km';
+  } else {
+    output = Math.round(length * 100) / 100 + ' ' + 'm';
+  }
+  return output;
+};
 
 function distanceBetweenPoints(latlng1, latlng2) {
   // var point1 = new ol.geom.Point(latlng1.lon, latlng1.lat).transform(geographic, mercator);
   // var point2 = new ol.geom.Point(latlng2.lon, latlng2.lat).transform(geographic, mercator);   
   // console.log(latlng1);
-  // var point1 = new ol.geom.Point(latlng1);
-  // var point2 = new ol.geom.Point(latlng2);      
-  let dist = ol.sphere.getDistance(latlng1, latlng2);
+  var point1 = new ol.geom.Point(latlng1);
+  var point2 = new ol.geom.Point(latlng2);      
+  let dist = ol.sphere.getDistance(point1, point2);
   return dist;
 }
 
