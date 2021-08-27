@@ -1,24 +1,44 @@
 //Stopwatch
 var startStopBtn = document.querySelector('.startStopBtn');
+var resetBtn = document.querySelector('.resetBtn');
 var displayTime = document.querySelector('.time');
 var interval;
 var startTime;
 var stopTime;
 var timeSpan;
+var isRunning = false;
+
+//start interval startTime 
+
+//stop 
 
 function startTimer() {
     interval = setInterval(render, 1);
-    startTime = Date.now();
+
+    if (timeSpan == undefined) {
+        timeSpan = 0;
+    }
+    startTime = Date.now() - timeSpan;
+
+    // startTime = Date.now();
+    isRunning = true;
 }
 
 function stopTimer() {
     stopTime = startTime + update();
     clearInterval(interval);
     interval = null;
+    isRunning = false;
 }
 
 function resetTimer() {
+    startTime = 0;
+    stopTime = 0;
+    timeSpan = 0;
     clearInterval(interval);
+    interval = null;
+    isRunning = false;
+    displayTime.innerHTML = "00:00:00:<span class='milli'>00</span>";
 }
 
 function update() {
@@ -83,12 +103,21 @@ function render() {
     displayTime.innerHTML = timeSpanFormatterStrg(update());
 }
 
-function toggleStartStop() {
-
+function toggleTimer() {
+    if (isRunning) {
+        stopTimer();
+    } else {
+        startTimer();
+    }
 }
 
 function addListeners() {
-    startStopBtn.addEventListener('click', startTimer);
+    startStopBtn.addEventListener('click', toggleTimer);
+    resetBtn.addEventListener('click', resetTimer);
 }
+
+// function addListeners() {
+//     startStopBtn.addEventListener('click', startTimer);
+// }
 
 addListeners();
