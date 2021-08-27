@@ -1,109 +1,94 @@
 //Stopwatch
+var startStopBtn = document.querySelector('.startStopBtn');
+var displayTime = document.querySelector('.time');
+var interval;
+var startTime;
+var stopTime;
+var timeSpan;
 
-// //Stopwatch
-// var Stopwatch = function (elem, options) {
+function startTimer() {
+    interval = setInterval(render, 1);
+    startTime = Date.now();
+}
 
-//     var timer = createTimer(),
-//         startButton = createButton("start", start),
-//         stopButton = createButton("stop", stop),
-//         resetButton = createButton("reset", reset),
-//         offset,
-//         clock,
-//         interval;
+function stopTimer() {
+    stopTime = startTime + update();
+    clearInterval(interval);
+    interval = null;
+}
 
-//     // default options
-//     options = options || {};
-//     options.delay = options.delay || 1;
+function resetTimer() {
+    clearInterval(interval);
+}
 
-//     // append elements     
-//     elem.appendChild(timer);
-//     elem.appendChild(startButton);
-//     elem.appendChild(stopButton);
-//     elem.appendChild(resetButton);
+function update() {
+    timeSpan = Date.now() - startTime;
+    return timeSpan;
+}
 
-//     // initialize
-//     reset();
+function timeSpanFormatterStrg(timeSpan) {
 
-//     // private functions
-//     function createTimer() {
-//         return document.createElement("span");
-//     }
+    let msHr = 3600000;
+    let msMin = 60000;
+    let msSec = 1000;
+    let msRest;
 
-//     function createButton(action, handler) {
-//         var a = document.createElement("a");
-//         a.href = "#" + action;
-//         a.innerHTML = action;
-//         a.addEventListener("click", function (event) {
-//             handler();
-//             event.preventDefault();
-//         });
-//         return a;
-//     }
+    let hr;
+    let min;
+    let sec;
+    let ms;
 
-//     function start() {
-//         if (!interval) {
-//             offset = Date.now();
-//             interval = setInterval(update, options.delay);
-//         }
-//     }
+    hr = Math.floor(timeSpan / msHr);
+    msRest = timeSpan % msHr;
 
-//     function stop() {
-//         if (interval) {
-//             clearInterval(interval);
-//             interval = null;
-//         }
-//     }
+    min = Math.floor(msRest / msMin);
+    msRest = timeSpan % msMin;
 
-//     function reset() {
-//         clock = 0;
-//         render(0);
-//     }
+    sec = Math.floor(msRest / msSec);
 
-//     function update() {
-//         clock += delta();
-//         render();
-//     }
+    ms = Math.floor((msRest % msSec) / 10);
 
-//     function render() {
-//         timer.innerHTML = clock / 1000;
-//     }
+    //hours to string
+    if (hr <= 9) {
+        strHr = `0${hr}`;
+    } else {
+        strHr = `${hr}`;
+    }
 
-//     function delta() {
-//         var now = Date.now(),
-//             d = now - offset;
+    //minutes to string
+    if (min <= 9) {
+        strMin = `0${min}`;
+    } else {
+        strMin = `${min}`;
+    }
 
-//         offset = now;
-//         return d;
-//     }
+    //seconds to string
+    if (sec <= 9) {
+        strSec = `0${sec}`;
+    } else {
+        strSec = `${sec}`;
+    }
 
-//     // public API
-//     this.start = start;
-//     this.stop = stop;
-//     this.reset = reset;
-// };
+    //milliseconds to string
+    if (ms < 10) {
+        strMs = `0${ms}`;
+    } else {
+        strMs = `${ms}`;
+    }
 
+    return `${strHr}:${strMin}:${strSec}:<span class="milli">${strMs}</span>`;
+}
 
-// // basic examples
-// var elems = document.getElementsByClassName("basic");
+function render() {
+    displayTime.innerHTML = timeSpanFormatterStrg(update());
+}
 
-// for (var i = 0, len = elems.length; i < len; i++) {
-//     new Stopwatch(elems[i]);
-// }
+function toggleStartStop() {
 
+}
 
-// // programmatic examples
-// var a = document.getElementById("a-timer");
-// aTimer = new Stopwatch(a);
-// aTimer.start();
+function addListeners() {
+    startStopBtn.addEventListener('click', startTimer);
+}
 
-// var b = document.getElementById("b-timer");
-// bTimer = new Stopwatch(b, { delay: 100 });
-// bTimer.start();
-
-// var c = document.getElementById("c-timer");
-// cTimer = new Stopwatch(c, { delay: 456 });
-// cTimer.start();
-
-// var d = document.getElementById("d-timer");
-// dTimer = new Stopwatch(d, { delay: 1000 });
-// dTimer.start();
+addListeners();

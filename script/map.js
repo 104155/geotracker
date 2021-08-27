@@ -132,8 +132,6 @@ function updateLocation() {
   //Tracking has to be true
   pos = geolocation.getPosition();
 
-  console.log(pos);
-
   //Update line points
   if (lastPos == undefined) {
     lastPos = pos;
@@ -155,13 +153,14 @@ function updateLocation() {
 
   //Update speed 
   speed = geolocation.getSpeed();
+  if(speed == undefined) {
+    speed = 0;
+  }
 
   //Update distance
   let lineString = new ol.geom.LineString(points);
   distance = formatLength(lineString);
   // distance += distanceBetweenPoints(pos, lastPos);
-  console.log('distance: ' + distance);
-  console.log('pos: ' + pos + ', lastPos: ' + lastPos);
 
   getElement('.trackOutput').innerHTML = `<p>speed: ${speed} m/s | distance: ${distance}</p>`;
 }
