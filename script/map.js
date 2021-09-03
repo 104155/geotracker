@@ -1,4 +1,7 @@
 //Variables
+var startStopBtn = document.querySelector('.startStopBtn');
+var resetBtn = document.querySelector('.resetBtn');
+
 var vectorSource; //line layer
 var view; //map view
 var map;
@@ -141,6 +144,7 @@ function updateLocation() {
 
   //Update icon coordinates
   iconFeature.setGeometry(new ol.geom.Point(pos));
+  // iconFeature.setGeometry('pointKey', new ol.geom.Point(pos));
 
   // //Update speed display
   // getElement('.speed').innerText = `speed: ${geolocation.getSpeed()} [m/s]`;
@@ -153,7 +157,7 @@ function updateLocation() {
 
   //Update speed 
   speed = geolocation.getSpeed();
-  if(speed == undefined) {
+  if (speed == undefined) {
     speed = 0;
   }
 
@@ -177,11 +181,8 @@ function formatLength(line) {
 };
 
 function distanceBetweenPoints(latlng1, latlng2) {
-  // var point1 = new ol.geom.Point(latlng1.lon, latlng1.lat).transform(geographic, mercator);
-  // var point2 = new ol.geom.Point(latlng2.lon, latlng2.lat).transform(geographic, mercator);   
-  // console.log(latlng1);
   var point1 = new ol.geom.Point(latlng1);
-  var point2 = new ol.geom.Point(latlng2);      
+  var point2 = new ol.geom.Point(latlng2);
   let dist = ol.sphere.getDistance(point1, point2);
   return dist;
 }
@@ -194,6 +195,22 @@ function startInterval(milliSec) {
 function stopInterval() {
   clearInterval(interval);
   interval = null;
+}
+
+function resetTracking() {
+  console.log('resetTracking says hi');
+  stopInterval();
+  geolocation.setTracking(false);
+  // let lineFeatures = vectorSource.getFeatures();
+  // console.log(lineFeatures);
+  vectorSource.clear();
+  // console.log(lineFeatures);
+
+  //get icon geometry
+  // let iconGeometries = iconFeature.getGeometry();
+  // iconFeature.unset('geometry');
+  // console.log(iconFeature);
+  // console.log(vectorSource.getFeatures());
 }
 
 //Toggle start/ stop tracking, time interval pos update
@@ -218,7 +235,10 @@ function toggleStartStop() {
   }
 }
 
-//Eventlistener start button
-document.querySelector('.startStopBtn').addEventListener('click', function () {
-  toggleStartStop();
-});
+//Add eventlisteners
+function addEventListeners() {
+  startStopBtn.addEventListener('click', toggleStartStop);
+  resetBtn.addEventListener('click', resetTracking);
+}
+
+addEventListeners();
