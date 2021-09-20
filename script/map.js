@@ -189,9 +189,8 @@ function stopInterval() {
 
 function resetTracking() {
   console.log('resetTracking says hi');
-  stopInterval();
-  stopInterval();
   geolocation.setTracking(false);
+  stopInterval();
   vectorSource.clear();
   // console.log(lineFeatures);
   // console.log(iconFeature.getProperties());
