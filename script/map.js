@@ -89,16 +89,8 @@ geolocation = new ol.Geolocation({
 //Updates track line
 function updateTrackLine(pos) {
 
-  // //Update line points
-  // if (lastPos == undefined) {
-  //   lastPos = pos;
-  // }
-
   //Line
   let lineString = new ol.geom.LineString([lastPos, pos]);
-
-  // //Update lastpos for next round
-  // lastPos = pos;
 
   let lineFeature = new ol.Feature({
     name: 'Line',
@@ -143,8 +135,7 @@ function updateLocation() {
   points.push(pos);
 
   //Update icon coordinates
-  iconFeature.setGeometry(new ol.geom.Point(pos));
-  // iconFeature.setGeometry('pointKey', new ol.geom.Point(pos));
+  iconFeature.setGeometry(new ol.geom.Point(pos)); //original
 
   // //Update speed display
   // getElement('.speed').innerText = `speed: ${geolocation.getSpeed()} [m/s]`;
@@ -164,7 +155,6 @@ function updateLocation() {
   //Update distance
   let lineString = new ol.geom.LineString(points);
   distance = formatLength(lineString);
-  // distance += distanceBetweenPoints(pos, lastPos);
 
   getElement('.trackOutput').innerHTML = `<p>speed: ${speed} m/s | distance: ${distance}</p>`;
 }
@@ -201,16 +191,15 @@ function resetTracking() {
   console.log('resetTracking says hi');
   stopInterval();
   geolocation.setTracking(false);
-  // let lineFeatures = vectorSource.getFeatures();
-  // console.log(lineFeatures);
   vectorSource.clear();
   // console.log(lineFeatures);
-
-  //get icon geometry
-  // let iconGeometries = iconFeature.getGeometry();
-  // iconFeature.unset('geometry');
-  // console.log(iconFeature);
-  // console.log(vectorSource.getFeatures());
+  // console.log(iconFeature.getProperties());
+  // console.log(iconFeature.unset());
+  // console.log(iconSource.clear());
+  lineFeature.clear();
+  // lineString.clear();
+  // iconSource.clear(); //delets white point permanently
+  // unSet('Line');
 }
 
 //Toggle start/ stop tracking, time interval pos update
