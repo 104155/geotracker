@@ -196,7 +196,7 @@ function resetTracking() {
   // console.log(iconFeature.getProperties());
   // console.log(iconFeature.unset());
   // console.log(iconSource.clear());
-  lineFeature.clear();
+  // lineFeature.clear();
   // lineString.clear();
   // iconSource.clear(); //delets white point permanently
   // unSet('Line');
