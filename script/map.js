@@ -190,6 +190,7 @@ function stopInterval() {
 function resetTracking() {
   console.log('resetTracking says hi');
   stopInterval();
+  stopInterval();
   geolocation.setTracking(false);
   vectorSource.clear();
   // console.log(lineFeatures);
