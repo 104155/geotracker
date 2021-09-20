@@ -92,7 +92,8 @@ function updateTrackLine(pos) {
   //Line
   let lineString = new ol.geom.LineString([lastPos, pos]);
 
-  let lineFeature = new ol.Feature({
+  // let lineFeature = new ol.Feature({
+  lineFeature = new ol.Feature({
     name: 'Line',
     geometry: lineString,
   });
@@ -110,7 +111,6 @@ function updateTrackLine(pos) {
   vectorSource.addFeature(lineFeature);
 
   //Fit trackline into map view
-
   let featuresOfInterest = vectorSource.getFeatures(); //Features of Line Strings - array
   let featExtent = featuresOfInterest[0].getGeometry().getExtent(); //preparing feature variable 
   for (let i = 0; i < featuresOfInterest.length; i++) {
@@ -188,18 +188,9 @@ function stopInterval() {
 }
 
 function resetTracking() {
-  console.log('resetTracking says hi');
   geolocation.setTracking(false);
   stopInterval();
   vectorSource.clear();
-  // console.log(lineFeatures);
-  // console.log(iconFeature.getProperties());
-  // console.log(iconFeature.unset());
-  // console.log(iconSource.clear());
-  // lineFeature.clear();
-  // lineString.clear();
-  // iconSource.clear(); //delets white point permanently
-  // unSet('Line');
   document.querySelector('.startStopBtn').innerText = 'START';
 }
 
