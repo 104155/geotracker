@@ -200,7 +200,7 @@ function resetTracking() {
   // lineString.clear();
   // iconSource.clear(); //delets white point permanently
   // unSet('Line');
-  document.querySelector('.startStopBtn').innerText = 'START';
+  document.querySelector('.startStopBtn').innerHtml = 'START';
 }
 
 //Toggle start/ stop tracking, time interval pos update
