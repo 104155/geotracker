@@ -190,12 +190,13 @@ function updateLocation() {
 //   return output;
 // };
 
-function distanceBetweenPoints(latlng1, latlng2) {
-  var point1 = new ol.geom.Point(latlng1);
-  var point2 = new ol.geom.Point(latlng2);
-  let dist = ol.sphere.getDistance(point1, point2);
-  return dist;
-}
+// //dont delete
+// function distanceBetweenPoints(latlng1, latlng2) {
+//   var point1 = new ol.geom.Point(latlng1);
+//   var point2 = new ol.geom.Point(latlng2);
+//   let dist = ol.sphere.getDistance(point1, point2);
+//   return dist;
+// }
 
 //Start interval
 function startInterval(milliSec) {
@@ -211,8 +212,10 @@ function resetTracking() {
   geolocation.setTracking(false);
   stopInterval();
   vectorSource.clear();
-  speed = 0.0
+  speeds = [];
+  speed = 0.0;
   distance = 0.0;
+  points = [];
   getElement('.trackOutput').innerHTML = `<p>speed: ${speed} m/s | distance: ${distance}</p>`;
   getElement('.startStopBtn').innerText = 'START';
 }
