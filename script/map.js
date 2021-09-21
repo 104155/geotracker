@@ -176,7 +176,7 @@ function updateLocation() {
   // distance = formatLength(lineString);
   let roundedDistance = lineString.getLength().toFixed(1);
 
-  getElement('.trackOutput').innerHTML = `<p>speed: ${averageSpeed} m/s | distance: ${roundedDistance} </p>`;
+  getElement('.trackOutput').innerHTML = `<p>speed: ${averageSpeed} m/s | distance: ${roundedDistance} m </p>`;
 }
 
 // function formatLength(line) {
@@ -245,7 +245,12 @@ function toggleStartStop() {
 //Add eventlisteners
 function addEventListeners() {
   startStopBtn.addEventListener('click', toggleStartStop);
-  resetBtn.addEventListener('click', resetTracking);
+  // resetBtn.addEventListener('click', resetTracking);
+  resetBtn.addEventListener('click', function() {
+    console.log(points);
+    resetTracking();
+    console.log(points);
+  });
 }
 
 function documentReady() {
