@@ -169,7 +169,7 @@ function updateLocation() {
   let lineString = new ol.geom.LineString(points);
   distance = formatLength(lineString);
 
-  getElement('.trackOutput').innerHTML = `<p>speed: ${roundedAverageSpeed} m/s | distance: ${lineString} </p>`;
+  getElement('.trackOutput').innerHTML = `<p>speed: ${speed} m/s | distance: ${distance} </p>`;
 }
 
 // function formatLength(line) {
