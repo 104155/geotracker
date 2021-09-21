@@ -172,16 +172,16 @@ function updateLocation() {
   getElement('.trackOutput').innerHTML = `<p>speed: ${speed} m/s | distance: ${distance} </p>`;
 }
 
-// function formatLength(line) {
-//   const length = line.getLength();
-//   let output;
-//   if (length > 100) {
-//     output = Math.round((length / 1000) * 100) / 100 + ' ' + 'km';
-//   } else {
-//     output = Math.round(length * 100) / 100 + ' ' + 'm';
-//   }
-//   return output;
-// };
+function formatLength(line) {
+  const length = line.getLength();
+  let output;
+  if (length > 100) {
+    output = Math.round((length / 1000) * 100) / 100 + ' ' + 'km';
+  } else {
+    output = Math.round(length * 100) / 100 + ' ' + 'm';
+  }
+  return output;
+};
 
 function distanceBetweenPoints(latlng1, latlng2) {
   var point1 = new ol.geom.Point(latlng1);
