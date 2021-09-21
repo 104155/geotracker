@@ -191,7 +191,10 @@ function resetTracking() {
   geolocation.setTracking(false);
   stopInterval();
   vectorSource.clear();
-  document.querySelector('.startStopBtn').innerText = 'START';
+  speed = 0.0
+  distance = 0.0;
+  getElement('.trackOutput').innerHTML = `<p>speed: ${speed} m/s | distance: ${distance}</p>`;
+  getElement('.startStopBtn').innerText = 'START';
 }
 
 //Toggle start/ stop tracking, time interval pos update
