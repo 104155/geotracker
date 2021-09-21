@@ -89,13 +89,13 @@ geolocation = new ol.Geolocation({
 
 //calc average speed
 function calcAverageSpeed() {
-  let sum;
+  let sum = 0;
   let averageSpeed;
+
   for (let element of speeds) {
     sum += element;
   }
   averageSpeed = sum / speeds.length;
-
   return averageSpeed;
 }
 
@@ -168,21 +168,20 @@ function updateLocation() {
   //Update distance
   let lineString = new ol.geom.LineString(points);
   distance = formatLength(lineString);
-  let roundedDistance = distance.toFixed(1);
 
-  getElement('.trackOutput').innerHTML = `<p>speed: ${roundedAverageSpeed} m/s | distance: ${roundedDistance}</p>`;
+  getElement('.trackOutput').innerHTML = `<p>speed: ${roundedAverageSpeed} m/s | distance: ${lineString} </p>`;
 }
 
-function formatLength(line) {
-  const length = line.getLength();
-  let output;
-  if (length > 100) {
-    output = Math.round((length / 1000) * 100) / 100 + ' ' + 'km';
-  } else {
-    output = Math.round(length * 100) / 100 + ' ' + 'm';
-  }
-  return output;
-};
+// function formatLength(line) {
+//   const length = line.getLength();
+//   let output;
+//   if (length > 100) {
+//     output = Math.round((length / 1000) * 100) / 100 + ' ' + 'km';
+//   } else {
+//     output = Math.round(length * 100) / 100 + ' ' + 'm';
+//   }
+//   return output;
+// };
 
 function distanceBetweenPoints(latlng1, latlng2) {
   var point1 = new ol.geom.Point(latlng1);
