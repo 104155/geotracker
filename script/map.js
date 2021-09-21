@@ -137,9 +137,6 @@ function updateLocation() {
   //Update icon coordinates
   iconFeature.setGeometry(new ol.geom.Point(pos)); //original
 
-  // //Update speed display
-  // getElement('.speed').innerText = `speed: ${geolocation.getSpeed()} [m/s]`;
-
   //Create new track lines
   updateTrackLine(pos);
 
