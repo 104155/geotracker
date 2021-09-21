@@ -87,18 +87,6 @@ geolocation = new ol.Geolocation({
   }
 });
 
-//calc average speed
-function calcAverageSpeed() {
-  let sum = 0;
-  let averageSpeed;
-
-  for (let element of speeds) {
-    sum += element;
-  }
-  averageSpeed = sum / speeds.length;
-  return averageSpeed;
-}
-
 //Updates track line
 function updateTrackLine(pos) {
 
@@ -136,6 +124,24 @@ function getElement(selector) {
   return document.querySelector(selector);
 }
 
+//calc average speed
+function calcAverageSpeed() {
+  let sum = 0;
+  let averageSpeed;
+
+  for (let element of speeds) {
+    sum += element;
+  }
+
+  if (speeds.length != 0) {
+    averageSpeed = sum / speeds.length;
+  } else {
+    averageSpeed = 0;
+  }
+
+  return averageSpeed;
+}
+
 function updateLocation() {
   //Tracking has to be true
   pos = geolocation.getPosition();
@@ -163,13 +169,13 @@ function updateLocation() {
   }
   //add speed meassurement to speeds array
   speeds.push(speed);
-  let roundedAverageSpeed = calcAverageSpeed().toFixed(1);
+  let averageSpeed = calcAverageSpeed();
 
   //Update distance
   let lineString = new ol.geom.LineString(points);
   distance = formatLength(lineString);
 
-  getElement('.trackOutput').innerHTML = `<p>speed: ${speed} m/s | distance: ${distance} </p>`;
+  getElement('.trackOutput').innerHTML = `<p>speed: ${averageSpeed} m/s | distance: ${distance} </p>`;
 }
 
 function formatLength(line) {
