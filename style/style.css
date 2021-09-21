@@ -61,3 +61,7 @@ button {
     padding: 0.5em;
     width: 8em;
 }
+
+.hide {
+    display: none;  
+}

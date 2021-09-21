@@ -2,18 +2,15 @@
 var startStopBtn = document.querySelector('.startStopBtn');
 var resetBtn = document.querySelector('.resetBtn');
 var displayTime = document.querySelector('.time');
-var interval;
+var intervalTime;
+var intervalGetPermission;
 var startTime;
 var stopTime;
 var timeSpan;
 var isRunning = false;
 
-//start interval startTime 
-
-//stop 
-
 function startTimer() {
-    interval = setInterval(render, 1);
+    intervalTime = setInterval(render, 1);
 
     if (timeSpan == undefined) {
         timeSpan = 0;
@@ -26,8 +23,8 @@ function startTimer() {
 
 function stopTimer() {
     stopTime = startTime + update();
-    clearInterval(interval);
-    interval = null;
+    clearInterval(intervalTime);
+    intervalTime = null;
     isRunning = false;
 }
 
@@ -35,8 +32,8 @@ function resetTimer() {
     startTime = 0;
     stopTime = 0;
     timeSpan = 0;
-    clearInterval(interval);
-    interval = null;
+    clearInterval(intervalTime);
+    intervalTime = null;
     isRunning = false;
     displayTime.innerHTML = "00:00:00:<span class='milli'>00</span>";
 }
@@ -115,9 +112,5 @@ function addListeners() {
     startStopBtn.addEventListener('click', toggleTimer);
     resetBtn.addEventListener('click', resetTimer);
 }
-
-// function addListeners() {
-//     startStopBtn.addEventListener('click', startTimer);
-// }
 
 addListeners();

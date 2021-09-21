@@ -15,7 +15,7 @@ var geolocation;
 var points = [];
 var pos;
 var lastPos;
-var interval; //time interval to update position
+var intervalUpdatePos; //time interval to update position
 
 var geographic = new ol.proj.Projection("EPSG:4326");
 var mercator = new ol.proj.Projection("EPSG:900913");
@@ -179,12 +179,12 @@ function distanceBetweenPoints(latlng1, latlng2) {
 
 //Start interval
 function startInterval(milliSec) {
-  interval = setInterval(updateLocation, milliSec);
+  intervalUpdatePos = setInterval(updateLocation, milliSec);
 }
 
 function stopInterval() {
-  clearInterval(interval);
-  interval = null;
+  clearInterval(intervalUpdatePos);
+  intervalUpdatePos = null;
 }
 
 function resetTracking() {
@@ -222,4 +222,8 @@ function addEventListeners() {
   resetBtn.addEventListener('click', resetTracking);
 }
 
-addEventListeners();
+function documentReady() {
+  addEventListeners();
+}
+
+documentReady();
