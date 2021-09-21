@@ -169,25 +169,26 @@ function updateLocation() {
   }
   //add speed meassurement to speeds array
   speeds.push(speed);
-  let averageSpeed = calcAverageSpeed();
+  let averageSpeed = calcAverageSpeed().toFixed(1); //parsed to string
 
   //Update distance
   let lineString = new ol.geom.LineString(points);
-  distance = formatLength(lineString);
+  // distance = formatLength(lineString);
+  let roundedDistance = lineString.getLength().toFixed(1);
 
-  getElement('.trackOutput').innerHTML = `<p>speed: ${averageSpeed} m/s | distance: ${distance} </p>`;
+  getElement('.trackOutput').innerHTML = `<p>speed: ${averageSpeed} m/s | distance: ${roundedDistance} </p>`;
 }
 
-function formatLength(line) {
-  const length = line.getLength();
-  let output;
-  if (length > 100) {
-    output = Math.round((length / 1000) * 100) / 100 + ' ' + 'km';
-  } else {
-    output = Math.round(length * 100) / 100 + ' ' + 'm';
-  }
-  return output;
-};
+// function formatLength(line) {
+//   const distanceValue = line.getLength();
+//   let output;
+//   if (distanceValue > 100) {
+//     output = Math.round((distanceValue / 1000) * 100) / 100 + ' ' + 'km';
+//   } else {
+//     output = Math.round(distanceValue * 100) / 100 + ' ' + 'm';
+//   }
+//   return output;
+// };
 
 function distanceBetweenPoints(latlng1, latlng2) {
   var point1 = new ol.geom.Point(latlng1);
