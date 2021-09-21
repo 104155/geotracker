@@ -20,6 +20,7 @@ var intervalUpdatePos; //time interval to update position
 var geographic = new ol.proj.Projection("EPSG:4326");
 var mercator = new ol.proj.Projection("EPSG:900913");
 var speed = 0.0
+var speeds = [];
 var distance = 0.0;
 
 //Empty vector where the line is later added 
@@ -86,6 +87,18 @@ geolocation = new ol.Geolocation({
   }
 });
 
+//calc average speed
+function calcAverageSpeed() {
+  let sum;
+  let averageSpeed;
+  for (let element of speeds) {
+    sum += element;
+  }
+  averageSpeed = sum / speeds.length;
+
+  return averageSpeed;
+}
+
 //Updates track line
 function updateTrackLine(pos) {
 
@@ -148,12 +161,16 @@ function updateLocation() {
   if (speed == undefined) {
     speed = 0;
   }
+  //add speed meassurement to speeds array
+  speeds.push(speed);
+  let roundedAverageSpeed = calcAverageSpeed().toFixed(1);
 
   //Update distance
   let lineString = new ol.geom.LineString(points);
   distance = formatLength(lineString);
+  let roundedDistance = distance.toFixed(1);
 
-  getElement('.trackOutput').innerHTML = `<p>speed: ${speed} m/s | distance: ${distance}</p>`;
+  getElement('.trackOutput').innerHTML = `<p>speed: ${roundedAverageSpeed} m/s | distance: ${roundedDistance}</p>`;
 }
 
 function formatLength(line) {
